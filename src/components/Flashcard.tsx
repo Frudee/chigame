@@ -10,6 +10,7 @@ type Props = {
   setCurrentLevel: React.Dispatch<React.SetStateAction<number>>;
   setTries: React.Dispatch<React.SetStateAction<number>>;
   currentLevel: number;
+  maxLevels: number;
 };
 
 export default function Flashcard({
@@ -19,6 +20,7 @@ export default function Flashcard({
   setCurrentLevel,
   setTries,
   currentLevel,
+  maxLevels,
 }: Props) {
   const [correctGuess, setCorrectGuess] = useState(false);
   const [error, setError] = useState(false);
@@ -44,7 +46,7 @@ export default function Flashcard({
   const handleClickNext = () => {
     setCorrectGuess(false);
 
-    if (currentLevel === 9) return;
+    if (currentLevel === maxLevels) return;
     setCurrentLevel((prevLevel) => prevLevel + 1);
   };
 

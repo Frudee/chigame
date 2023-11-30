@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { hsk1Words, hsk1WordsType } from "../lib/data";
 import { getRandomObjects } from "../lib/helpers";
 import Flashcard from "../components/Flashcard";
+import Results from "../components/Results";
 
 export default function GameScreen() {
   const maxLevels = 10;
@@ -15,8 +16,8 @@ export default function GameScreen() {
     [restart]
   );
 
-  const restartGame = () => {
-    setRestart(!restart);
+  const restartGame = (wholeRestart = false) => {
+    if (wholeRestart) setRestart(!restart);
     setCurrentLevel(0);
     setScore(0);
     setTries(0);
@@ -25,12 +26,24 @@ export default function GameScreen() {
   console.log(currentLevel, words);
   return (
     <div className="flex flex-col justify-center items-center min-h-[50vh] w-full pt-20">
-      <div className="mb-10">
-        Score: {score}/{tries}
-        Level: {currentLevel + 1}/{maxLevels}
+      <div className="mb-10 flex justify-between w-1/3">
+        <span>
+          Счет: {score}/{tries}
+        </span>
+        <span>
+          {currentLevel === maxLevels ? (
+            <>
+              Слово: {currentLevel}/{maxLevels}
+            </>
+          ) : (
+            <>
+              Слово: {currentLevel + 1}/{maxLevels}
+            </>
+          )}
+        </span>
       </div>
 
-      {currentLevel !== maxLevels - 1 &&
+      {currentLevel !== maxLevels &&
         words.map(
           (word, i) =>
             currentLevel == i && (
@@ -39,19 +52,15 @@ export default function GameScreen() {
                 options={words}
                 key={i}
                 currentLevel={currentLevel}
+                maxLevels={maxLevels}
                 setScore={setScore}
                 setCurrentLevel={setCurrentLevel}
                 setTries={setTries}
               />
             )
         )}
-      {currentLevel === maxLevels - 1 && (
-        <button
-          className="border rounded-lg py-2  border-stone-950 hover:bg-green-300 hover:border-green-300 "
-          onClick={restartGame}
-        >
-          Restart
-        </button>
+      {currentLevel === maxLevels && (
+        <Results score={score} maxScore={tries} restartGame={restartGame} />
       )}
     </div>
   );
