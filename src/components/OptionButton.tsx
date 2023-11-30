@@ -1,10 +1,15 @@
-type Props = {
-  option: string;
-};
+import { ButtonHTMLAttributes } from "react";
 
-export default function OptionButton({ option }: Props) {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  option: string;
+}
+
+export default function OptionButton({ option, ...rest }: Props) {
   return (
-    <button className="border rounded-lg py-2 px-2 border-stone-950 hover:bg-green-300 hover:border-green-300 min-w-[100px]">
+    <button
+      className="border rounded-lg py-2 px-2 grow basis-0 shrink border-stone-950 hover:bg-green-300 hover:border-green-300 "
+      {...rest}
+    >
       {option}
     </button>
   );
