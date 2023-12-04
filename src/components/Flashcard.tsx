@@ -3,7 +3,7 @@ import { hsk1WordType } from "../lib/data";
 import { insertAtRandomPosition } from "../lib/helpers";
 import TypeChinese from "./TypeChinese";
 import OptionsList from "./OptionsList";
-import CorrectAnswer from "./AnswerFeedback";
+import AnswerFeedback from "./AnswerFeedback";
 
 type Props = {
   word: hsk1WordType;
@@ -85,7 +85,7 @@ export default function Flashcard({
         <TypeChinese handleAnswer={handleAnswer} word={word} />
       )}
       {isCorrectAnswer || error ? (
-        <CorrectAnswer
+        <AnswerFeedback
           word={word}
           handleClickNext={handleClickNext}
           isCorrectAnswer={isCorrectAnswer}

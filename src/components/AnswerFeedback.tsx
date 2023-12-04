@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, useEffect } from "react";
+import { FC, useEffect, useRef } from "react";
 import { hsk1WordType } from "../lib/data";
 
 interface CorrectAnswerProps {
@@ -12,6 +12,30 @@ const AnswerFeedback: FC<CorrectAnswerProps> = ({
   handleClickNext,
   isCorrectAnswer,
 }) => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.key === "Enter" &&
+        event.target instanceof Element &&
+        !isInputField(event.target)
+      ) {
+        buttonRef.current?.click();
+      }
+    };
+
+    const isInputField = (element: Element) => {
+      return element.tagName === "INPUT" || element.tagName === "TEXTAREA";
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <div
       className={`${
@@ -26,6 +50,7 @@ const AnswerFeedback: FC<CorrectAnswerProps> = ({
         <span className="block text-md">{word.Russian}</span>
       </div>
       <button
+        ref={buttonRef}
         className={`${
           isCorrectAnswer
             ? "bg-green-400 hover:bg-green-500"
