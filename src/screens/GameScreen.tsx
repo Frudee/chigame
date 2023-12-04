@@ -4,7 +4,12 @@ import { getRandomObjects } from "../lib/helpers";
 import Flashcard from "../components/Flashcard";
 import Results from "../components/Results";
 
-export default function GameScreen() {
+type Props = {
+  setShowGameScreen: React.Dispatch<React.SetStateAction<boolean>>;
+  mode: string;
+};
+
+export default function GameScreen({ setShowGameScreen, mode }: Props) {
   const maxLevels = 10;
   const [currentLevel, setCurrentLevel] = useState(0);
   const [score, setScore] = useState(0);
@@ -25,7 +30,13 @@ export default function GameScreen() {
 
   console.log(currentLevel, words);
   return (
-    <div className="flex flex-col justify-center items-center min-h-[50vh] w-full pt-20">
+    <div className="flex flex-col relative justify-center items-center min-h-[50vh] w-full pt-20">
+      <button
+        className="absolute top-10 right-50%"
+        onClick={() => setShowGameScreen(false)}
+      >
+        Назад
+      </button>
       <div className="mb-10 flex justify-between w-1/3">
         <span>
           Счет: {score}/{tries}
@@ -56,6 +67,7 @@ export default function GameScreen() {
                 setScore={setScore}
                 setCurrentLevel={setCurrentLevel}
                 setTries={setTries}
+                mode={mode}
               />
             )
         )}

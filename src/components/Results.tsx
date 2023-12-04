@@ -15,10 +15,16 @@ export default function Results({ score, maxScore, restartGame }: Props) {
           Поздравляю, но можно было и лучше -_-
         </h2>
         <button
-          className="border rounded-lg py-2 px-12  border-stone-950 hover:bg-green-400 hover:border-green-400 "
+          className="border rounded-lg py-2 px-12 mb-2 border-stone-950 hover:bg-green-400 hover:border-green-400 "
           onClick={() => restartGame(false)}
         >
           Restart
+        </button>
+        <button
+          className="border rounded-lg py-2 px-12  border-stone-950 hover:bg-green-400 hover:border-green-400 "
+          onClick={() => restartGame(true)}
+        >
+          Restart Full
         </button>
       </div>
     );
