@@ -1,30 +1,32 @@
-# React + TypeScript + Vite
+# Chinese Learning Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A game for learning Chinese vocabulary, specifically targeting HSK 1 level. The game features two modes: multiple choice and typing.
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Clone the repository:
+git clone
 
-## Expanding the ESLint configuration
+Install the necessary dependencies:
+npm install
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Usage
 
-- Configure the top-level `parserOptions` property like this:
+To start the game, run the following command:
+npm start
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+The game will present vocabulary words from HSK 1 level. In the multiple choice mode, you will be given options to choose from for each word. In the typing mode, you will need to type the correct word based on the given prompt.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Features
+
+- HSK 1 vocabulary: Learn and practice vocabulary from the HSK 1 level.
+- Multiple choice mode: Test your knowledge by choosing the correct word from a set of options.
+- Typing mode: Improve your typing skills by typing the correct word based on the given prompt.
+
+## Contributing
+
+Contributions are welcome!
+
+## License
+
+This project is licensed under the MIT License.
