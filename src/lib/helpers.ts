@@ -1,11 +1,25 @@
-export const getRandomObjects = (array: any[], x: number, exclude?: string) => {
-  const filteredArray = exclude
-    ? array.filter((obj) => obj["Russian"] !== exclude)
-    : array;
+export const getArrayObjects = (
+  array: any[],
+  part: string | number = "random",
+  exclude?: string,
+  chunkSize = 10
+) => {
+  if (part === "random") {
+    console.log("random object func");
+    const filteredArray = exclude
+      ? array.filter((obj) => obj["Russian"] !== exclude)
+      : array;
 
-  const shuffledArray = filteredArray.sort(() => Math.random() - 0.5);
+    const shuffledArray = filteredArray.sort(() => Math.random() - 0.5);
 
-  return shuffledArray.slice(0, x);
+    return shuffledArray.slice(0, chunkSize);
+  } else {
+    const chunk = Number(part);
+    const startIndex = chunk * chunkSize;
+    const endIndex = startIndex + chunkSize;
+    console.log(startIndex, endIndex);
+    return array.slice(startIndex, endIndex).sort(() => Math.random() - 0.5);
+  }
 };
 
 export const insertAtRandomPosition = (array: any[], item: any) => {

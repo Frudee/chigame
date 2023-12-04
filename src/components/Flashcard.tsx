@@ -1,8 +1,9 @@
 import { useState, useMemo } from "react";
 import { hsk1WordType } from "../lib/data";
-import { getRandomObjects, insertAtRandomPosition } from "../lib/helpers";
-import OptionButton from "./OptionButton";
+import { insertAtRandomPosition } from "../lib/helpers";
 import TypeChinese from "./TypeChinese";
+import OptionsList from "./OptionsList";
+import CorrectAnswer from "./AnswerFeedback";
 
 type Props = {
   word: hsk1WordType;
@@ -30,8 +31,9 @@ export default function Flashcard({
   const [showPinyin, setShowPinyin] = useState(false);
 
   const currentOptions = useMemo(() => {
-    const optionsWithoutWord = options.filter((option) => option !== word);
-    const randomOptions = getRandomObjects(optionsWithoutWord, 3, word.Russian);
+    const randomOptions = options
+      .filter((option) => option !== word)
+      .sort(() => Math.random() - 0.5);
     insertAtRandomPosition(randomOptions, word);
     return randomOptions;
   }, [word, options]);
@@ -47,8 +49,8 @@ export default function Flashcard({
   };
 
   const handleClickShowPinyin = () => {
-    setTries((prevTries) => prevTries + 1);
-    setShowPinyin((prev) => !prev);
+    if (!showPinyin) setTries((prevTries) => prevTries + 1);
+    setShowPinyin(true);
   };
 
   const handleClickNext = () => {
@@ -73,60 +75,22 @@ export default function Flashcard({
         </button>
       </div>
       {!isCorrectAnswer && !error && mode === "translateRus" && (
-        <div className="flex flex-col grow w-full items-center ">
-          <div className="mb-4 flex w-full grow gap-4">
-            <OptionButton
-              option={currentOptions[0].Russian}
-              onClick={() =>
-                handleAnswer(currentOptions[0].Russian, word.Russian)
-              }
-            />
-            <OptionButton
-              option={currentOptions[1].Russian}
-              onClick={() =>
-                handleAnswer(currentOptions[1].Russian, word.Russian)
-              }
-            />
-          </div>
-          <div className="mb-4 flex w-full grow gap-4">
-            <OptionButton
-              option={currentOptions[2].Russian}
-              onClick={() =>
-                handleAnswer(currentOptions[2].Russian, word.Russian)
-              }
-            />
-            <OptionButton
-              option={currentOptions[3].Russian}
-              onClick={() =>
-                handleAnswer(currentOptions[3].Russian, word.Russian)
-              }
-            />
-          </div>
-        </div>
+        <OptionsList
+          currentOptions={currentOptions}
+          word={word}
+          handleAnswer={handleAnswer}
+        />
       )}
       {mode === "typeChinese" && !error && !isCorrectAnswer && (
         <TypeChinese handleAnswer={handleAnswer} word={word} />
       )}
-      {isCorrectAnswer && (
-        <div className="bg-green-200 p-6 flex flex-col items-center w-full">
-          <h2>CORRECT</h2>
-          <span className="block text-lg">{word.Pinyin}</span>
-          {mode === "typeChinese" && (
-            <span className="block text-lg">{word.Russian}</span>
-          )}
-          <button onClick={handleClickNext}>Далее</button>
-        </div>
-      )}
-      {error && (
-        <div className="bg-red-200 p-6 flex flex-col items-center w-full">
-          <h2>WRONG</h2>
-          <span className="block text-lg">
-            Правильный ответ: <strong>{word.Russian}</strong>
-          </span>
-          <span className="block text-lg">{word.Pinyin}</span>
-          <button onClick={handleClickNext}>Далее</button>
-        </div>
-      )}
+      {isCorrectAnswer || error ? (
+        <CorrectAnswer
+          word={word}
+          handleClickNext={handleClickNext}
+          isCorrectAnswer={isCorrectAnswer}
+        />
+      ) : null}
     </div>
   );
 }

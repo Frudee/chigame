@@ -1,24 +1,31 @@
 import { useState, useMemo } from "react";
 import { hsk1Words, hsk1WordsType } from "../lib/data";
-import { getRandomObjects } from "../lib/helpers";
+import { getArrayObjects } from "../lib/helpers";
 import Flashcard from "../components/Flashcard";
 import Results from "../components/Results";
+import MainMenuBtn from "../components/MainMenuBtn";
 
 type Props = {
   setShowGameScreen: React.Dispatch<React.SetStateAction<boolean>>;
+  vocabularyPart: string | number;
   mode: string;
 };
 
-export default function GameScreen({ setShowGameScreen, mode }: Props) {
-  const maxLevels = 10;
+const MAX_LEVELS = 10;
+
+export default function GameScreen({
+  setShowGameScreen,
+  mode,
+  vocabularyPart,
+}: Props) {
   const [currentLevel, setCurrentLevel] = useState(0);
   const [score, setScore] = useState(0);
   const [tries, setTries] = useState(0);
   const [restart, setRestart] = useState(false);
 
   const words: hsk1WordsType = useMemo(
-    () => getRandomObjects(hsk1Words, maxLevels),
-    [restart]
+    () => getArrayObjects(hsk1Words, vocabularyPart),
+    [restart, vocabularyPart]
   );
 
   const restartGame = (wholeRestart = false) => {
@@ -30,31 +37,31 @@ export default function GameScreen({ setShowGameScreen, mode }: Props) {
 
   console.log(currentLevel, words);
   return (
-    <div className="flex flex-col relative justify-center items-center min-h-[50vh] w-full pt-20">
-      <button
-        className="absolute top-10 right-50%"
-        onClick={() => setShowGameScreen(false)}
-      >
-        Назад
-      </button>
-      <div className="mb-10 flex justify-between w-1/3">
+    <div className="flex flex-col  justify-center items-center min-h-[100vh] w-full pt-20">
+      <div className="mb-10 pt-1 flex relative justify-between w-1/3 border-t">
+        <MainMenuBtn
+          classNames="absolute bottom-10 right-50%"
+          onClick={() => setShowGameScreen(false)}
+        >
+          Назад
+        </MainMenuBtn>
         <span>
           Счет: {score}/{tries}
         </span>
         <span>
-          {currentLevel === maxLevels ? (
+          {currentLevel === MAX_LEVELS ? (
             <>
-              Слово: {currentLevel}/{maxLevels}
+              Слово: {currentLevel}/{MAX_LEVELS}
             </>
           ) : (
             <>
-              Слово: {currentLevel + 1}/{maxLevels}
+              Слово: {currentLevel + 1}/{MAX_LEVELS}
             </>
           )}
         </span>
       </div>
 
-      {currentLevel !== maxLevels &&
+      {currentLevel !== MAX_LEVELS &&
         words.map(
           (word, i) =>
             currentLevel == i && (
@@ -63,7 +70,7 @@ export default function GameScreen({ setShowGameScreen, mode }: Props) {
                 options={words}
                 key={i}
                 currentLevel={currentLevel}
-                maxLevels={maxLevels}
+                maxLevels={MAX_LEVELS}
                 setScore={setScore}
                 setCurrentLevel={setCurrentLevel}
                 setTries={setTries}
@@ -71,7 +78,7 @@ export default function GameScreen({ setShowGameScreen, mode }: Props) {
               />
             )
         )}
-      {currentLevel === maxLevels && (
+      {currentLevel === MAX_LEVELS && (
         <Results score={score} maxScore={tries} restartGame={restartGame} />
       )}
     </div>
