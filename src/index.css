@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "myfont";
+  src: url("fonts/myfont.ttf") format("truetype");
+  /* Add other font properties, such as font-weight and font-style, if needed */
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

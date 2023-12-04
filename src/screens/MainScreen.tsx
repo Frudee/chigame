@@ -13,7 +13,10 @@ export default function MainScreen({ setShowGameScreen, setMode }: Props) {
     <>
       {" "}
       {!showSettings ? (
-        <div className="flex flex-col justify-center items-center h-[100vh] w-full">
+        <div className="flex flex-col justify-center items-center gap-4 h-[100vh] w-full">
+          <h1 className="font-myfont text-[62px] text-orange-500">
+            爸爸 Chigame 爸爸
+          </h1>
           <MainMenuBtn
             name="Начать"
             onClick={() => setShowGameScreen(true)}
