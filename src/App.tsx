@@ -16,6 +16,8 @@ function App() {
           mode={mode}
           setShowGameScreen={setShowGameScreen}
           vocabularyPart={vocabularyPart}
+          vocabularySize={vocabularySize}
+          setVocabularySize={setVocabularySize}
         />
       ) : (
         <MainScreen

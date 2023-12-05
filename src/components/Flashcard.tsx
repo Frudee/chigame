@@ -11,6 +11,8 @@ type Props = {
   setScore: React.Dispatch<React.SetStateAction<number>>;
   setCurrentLevel: React.Dispatch<React.SetStateAction<number>>;
   setTries: React.Dispatch<React.SetStateAction<number>>;
+  setHardWords: React.Dispatch<React.SetStateAction<hsk1WordType[]>>;
+  showHardWords: boolean;
   currentLevel: number;
   maxLevels: number;
   mode: string;
@@ -22,6 +24,8 @@ export default function Flashcard({
   setScore,
   setCurrentLevel,
   setTries,
+  setHardWords,
+  showHardWords,
   currentLevel,
   maxLevels,
   mode,
@@ -44,6 +48,8 @@ export default function Flashcard({
       if (!showPinyin) setScore((prevScore) => prevScore + 1);
       setIsCorrectAnswer(true);
     } else {
+      if (!showHardWords)
+        setHardWords((prevHardWords) => [...prevHardWords, word]);
       setError(true);
     }
   };

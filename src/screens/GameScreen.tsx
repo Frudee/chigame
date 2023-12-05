@@ -8,31 +8,46 @@ import MainMenuBtn from "../components/MainMenuBtn";
 type Props = {
   setShowGameScreen: React.Dispatch<React.SetStateAction<boolean>>;
   vocabularyPart: string | number;
+  vocabularySize: number;
+  setVocabularySize: React.Dispatch<React.SetStateAction<number>>;
   mode: string;
 };
-
-const MAX_LEVELS = 10;
 
 export default function GameScreen({
   setShowGameScreen,
   mode,
   vocabularyPart,
+  vocabularySize,
+  setVocabularySize,
 }: Props) {
   const [currentLevel, setCurrentLevel] = useState(0);
   const [score, setScore] = useState(0);
   const [tries, setTries] = useState(0);
   const [restart, setRestart] = useState(false);
+  const [hardWords, setHardWords] = useState<hsk1WordsType>([]);
+  const [showHardWords, setShowHardWords] = useState(false);
 
   const words: hsk1WordsType = useMemo(
-    () => getArrayObjects(hsk1Words, vocabularyPart),
-    [restart, vocabularyPart]
+    () =>
+      !showHardWords
+        ? getArrayObjects(hsk1Words, vocabularyPart, undefined, vocabularySize)
+        : hardWords,
+    [restart, vocabularyPart, vocabularySize, showHardWords]
   );
 
   const restartGame = (wholeRestart = false) => {
     if (wholeRestart) setRestart(!restart);
+    words.sort(() => Math.random() - 0.5);
     setCurrentLevel(0);
     setScore(0);
     setTries(0);
+  };
+
+  const handleShowHardWords = () => {
+    if (hardWords.length < 1) return;
+    restartGame();
+    setShowHardWords(!showHardWords);
+    setVocabularySize(hardWords.length);
   };
 
   return (
@@ -44,38 +59,47 @@ export default function GameScreen({
         >
           Назад
         </MainMenuBtn>
+        <MainMenuBtn
+          classNames="absolute bottom-10 right-0"
+          onClick={handleShowHardWords}
+        >
+          Сложные слова: {hardWords.length}
+        </MainMenuBtn>
         <span>
           Счет: {score}/{tries}
         </span>
         <span>
           Часть словаря:{" "}
-          {typeof vocabularyPart === "number"
+          {showHardWords
+            ? "Сложные слова"
+            : typeof vocabularyPart === "number"
             ? vocabularyPart + 1
             : "Случайная"}
         </span>
         <span>
-          {currentLevel === MAX_LEVELS ? (
+          {currentLevel === vocabularySize ? (
             <>
-              Слово: {currentLevel}/{MAX_LEVELS}
+              Слово: {currentLevel}/{vocabularySize}
             </>
           ) : (
             <>
-              Слово: {currentLevel + 1}/{MAX_LEVELS}
+              Слово: {currentLevel + 1}/{vocabularySize}
             </>
           )}
         </span>
       </div>
-
-      {currentLevel !== MAX_LEVELS &&
+      {currentLevel !== vocabularySize &&
         words.map(
           (word, i) =>
             currentLevel == i && (
               <Flashcard
                 word={word}
+                setHardWords={setHardWords}
+                showHardWords={showHardWords}
                 options={words}
                 key={i}
                 currentLevel={currentLevel}
-                maxLevels={MAX_LEVELS}
+                maxLevels={vocabularySize}
                 setScore={setScore}
                 setCurrentLevel={setCurrentLevel}
                 setTries={setTries}
@@ -83,7 +107,7 @@ export default function GameScreen({
               />
             )
         )}
-      {currentLevel === MAX_LEVELS && (
+      {currentLevel === vocabularySize && (
         <Results score={score} maxScore={tries} restartGame={restartGame} />
       )}
     </div>
