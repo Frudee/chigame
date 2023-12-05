@@ -44,10 +44,10 @@ export default function Settings({
   };
 
   return (
-    <div className="flex flex-col gap-4 justify-center items-center h-[100vh] ">
+    <div className="flex flex-col gap-4 justify-center items-center h-[100vh] px-2">
       <h2 className="text-[22px]">Настройки</h2>
       <select
-        className="border p-2 rounded-lg hover:cursor-pointer min-w-[200px]"
+        className="border w-full p-2 rounded-lg hover:cursor-pointer sm:max-w-[300px]"
         onChange={(e) => setMode(e.target.value)}
       >
         <option value="">Режим</option>
@@ -55,14 +55,14 @@ export default function Settings({
         <option value="typeChinese">Ввод иероглифов</option>
       </select>
       <select
-        className="border p-2 rounded-lg hover:cursor-pointer min-w-[200px]"
+        className="border w-full p-2 rounded-lg hover:cursor-pointer sm:max-w-[300px]"
         onChange={handleVocabularyPartChange}
       >
         <option value="">Часть словаря</option>
         <option value="random">Случайная</option>
         {vocabularyParts}
       </select>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 w-full sm:max-w-[300px]">
         <label
           htmlFor="vocabulary-size-range"
           className="min-w-[200px] text-left"

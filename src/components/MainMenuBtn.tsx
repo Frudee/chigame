@@ -8,7 +8,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 export default function MainMenuBtn({ children, classNames, ...rest }: Props) {
   return (
     <button
-      className={`min-w-[200px] border rounded-lg py-2 hover:bg-orange-400 hover:text-white ${classNames}`}
+      className={`sm:max-w-[200px] w-full border rounded-lg py-2 hover:bg-orange-400 hover:text-white ${classNames}`}
       {...rest}
     >
       {children}

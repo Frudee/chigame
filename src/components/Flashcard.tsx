@@ -67,7 +67,7 @@ export default function Flashcard({
   };
 
   return (
-    <div className="w-1/3 flex flex-col items-center min-h-[200px]">
+    <div className="w-full sm:w-1/2 lg:w-1/3 flex flex-col items-center min-h-[200px]">
       <div className="flex flex-col items-center h-56">
         <span className="text-3xl mb-5 block ">{word.Chinese}</span>
         <span className={`text-lg ${showPinyin ? "block" : "hidden"}`}>

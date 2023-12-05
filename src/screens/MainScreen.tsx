@@ -23,9 +23,12 @@ export default function MainScreen({
     <>
       {" "}
       {!showSettings ? (
-        <div className="flex flex-col justify-center items-center gap-4 h-[100vh] w-full">
-          <h1 className="font-myfont text-[62px] text-orange-500">
-            爸爸 Chigame 爸爸
+        <div className="flex flex-col justify-center items-center gap-4 h-[100vh] w-full px-2">
+          <span className="vertical-text text-orange-600 font-bold tracking-[20px] text-[30px]">
+            中文学习游戏
+          </span>
+          <h1 className="font-myfont text-center text-[2rem] sm:text-[62px] text-orange-500">
+            Chigame
           </h1>
           <MainMenuBtn onClick={() => setShowGameScreen(true)}>
             Начать

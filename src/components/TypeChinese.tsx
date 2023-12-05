@@ -26,9 +26,9 @@ export default function TypeChinese({ word, handleAnswer }: Props) {
   };
 
   return (
-    <div className="w-full flex justify-center gap-8">
+    <div className="w-full min-h-[140px] flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 px-2">
       <input
-        className="border p-2 rounded-md focus:border-orange-300 focus:outline-0"
+        className="border p-2 rounded-md w-full focus:border-orange-300 focus:outline-0"
         type="text"
         value={inputValue}
         onChange={handleInputChange}

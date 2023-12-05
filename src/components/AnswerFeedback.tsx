@@ -40,9 +40,9 @@ const AnswerFeedback: FC<CorrectAnswerProps> = ({
     <div
       className={`${
         isCorrectAnswer ? "bg-green-200" : "bg-red-200"
-      } p-6 flex justify-evenly gap-4 rounded-md items-center w-full`}
+      } py-6 px-2 sm:px-6 flex justify-evenly gap-4 rounded-md items-center w-full`}
     >
-      <div className="text-center">
+      <div className="text-center w-full">
         <h2 className="text-2xl mb-2">
           {isCorrectAnswer ? "Верно" : "Ошибка"}
         </h2>
@@ -55,7 +55,7 @@ const AnswerFeedback: FC<CorrectAnswerProps> = ({
           isCorrectAnswer
             ? "bg-green-400 hover:bg-green-500"
             : "bg-red-400 hover:bg-red-500"
-        } py-1 px-6 rounded-md min-w-[200px]`}
+        } py-1 px-6 rounded-md w-full sm:min-w-[200px]`}
         onClick={handleClickNext}
       >
         Далее
