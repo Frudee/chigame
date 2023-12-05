@@ -4,7 +4,8 @@ import GameScreen from "./screens/GameScreen";
 
 function App() {
   const [showGameScreen, setShowGameScreen] = useState(false);
-  const [mode, setMode] = useState("translateRus");
+  const [mode, setMode] = useState("typeChinese");
+  const [vocabularySize, setVocabularySize] = useState(10);
   const [vocabularyPart, setVocabularyPart] = useState<string | number>(
     "random"
   );
@@ -21,6 +22,8 @@ function App() {
           setMode={setMode}
           setShowGameScreen={setShowGameScreen}
           setVocabularyPart={setVocabularyPart}
+          setVocabularySize={setVocabularySize}
+          vocabularySize={vocabularySize}
         />
       )}
     </>

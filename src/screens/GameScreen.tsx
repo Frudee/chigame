@@ -48,6 +48,7 @@ export default function GameScreen({
         <span>
           Счет: {score}/{tries}
         </span>
+        <span>Часть словаря: {Number(vocabularyPart) + 1}</span>
         <span>
           {currentLevel === MAX_LEVELS ? (
             <>

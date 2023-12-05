@@ -6,12 +6,16 @@ type Props = {
   setShowGameScreen: React.Dispatch<React.SetStateAction<boolean>>;
   setVocabularyPart: React.Dispatch<React.SetStateAction<string | number>>;
   setMode: React.Dispatch<React.SetStateAction<string>>;
+  setVocabularySize: React.Dispatch<React.SetStateAction<number>>;
+  vocabularySize: number;
 };
 
 export default function MainScreen({
   setShowGameScreen,
   setMode,
   setVocabularyPart,
+  setVocabularySize,
+  vocabularySize,
 }: Props) {
   const [showSettings, setShowSettings] = useState(false);
 
@@ -32,6 +36,8 @@ export default function MainScreen({
         </div>
       ) : (
         <Settings
+          vocabularySize={vocabularySize}
+          setVocabularySize={setVocabularySize}
           setMode={setMode}
           setShowSettings={setShowSettings}
           setVocabularyPart={setVocabularyPart}
