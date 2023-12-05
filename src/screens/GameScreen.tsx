@@ -35,7 +35,6 @@ export default function GameScreen({
     setTries(0);
   };
 
-  console.log(currentLevel, words);
   return (
     <div className="flex flex-col  justify-center items-center min-h-[100vh] w-full pt-20">
       <div className="mb-10 pt-1 flex relative justify-between w-1/3 border-t">
@@ -48,7 +47,12 @@ export default function GameScreen({
         <span>
           Счет: {score}/{tries}
         </span>
-        <span>Часть словаря: {Number(vocabularyPart) + 1}</span>
+        <span>
+          Часть словаря:{" "}
+          {typeof vocabularyPart === "number"
+            ? vocabularyPart + 1
+            : "Случайная"}
+        </span>
         <span>
           {currentLevel === MAX_LEVELS ? (
             <>

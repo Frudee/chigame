@@ -5,7 +5,6 @@ export const getArrayObjects = (
   chunkSize = 10
 ) => {
   if (part === "random") {
-    console.log("random object func");
     const filteredArray = exclude
       ? array.filter((obj) => obj["Russian"] !== exclude)
       : array;

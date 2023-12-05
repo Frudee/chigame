@@ -33,6 +33,16 @@ export default function Settings({
     setVocabularySize(Number(event.target.value));
   };
 
+  const handleVocabularyPartChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (event.target.value === "random") {
+      setVocabularyPart("random");
+      return;
+    }
+    setVocabularyPart(Number(event.target.value));
+  };
+
   return (
     <div className="flex flex-col gap-4 justify-center items-center h-[100vh] ">
       <h2 className="text-[22px]">Настройки</h2>
@@ -46,7 +56,7 @@ export default function Settings({
       </select>
       <select
         className="border p-2 rounded-lg hover:cursor-pointer min-w-[200px]"
-        onChange={(e) => setVocabularyPart(e.target.value)}
+        onChange={handleVocabularyPartChange}
       >
         <option value="">Часть словаря</option>
         <option value="random">Случайная</option>
