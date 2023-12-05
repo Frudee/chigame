@@ -42,7 +42,7 @@ export default function GameScreen({
     setScore(0);
     setTries(0);
   };
-
+  // test
   const handleShowHardWords = () => {
     if (hardWords.length < 1) return;
     restartGame();
