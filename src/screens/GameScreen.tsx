@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { hsk1Words, hsk1WordsType } from "../lib/data";
-import { shuffleArray } from "../lib/helpers";
+import { getArrayObjects, shuffleArray } from "../lib/helpers";
 import Flashcard from "../components/Flashcard";
 import Results from "../components/Results";
 import MainMenuBtn from "../components/MainMenuBtn";
-import { useWords } from "../lib/hooks";
 
 type Props = {
   setShowGameScreen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,27 +29,20 @@ export default function GameScreen({
   const [shuffle, setShuffle] = useState(true);
 
   const chunkSize = useRef(vocabularySize);
-  let words = useWords(
-    hsk1Words,
-    vocabularyPart,
-    vocabularySize,
-    showHardWords,
-    restart,
-    chunkSize.current
-  );
-  // let words: hsk1WordsType = useMemo(() => {
-  //   if (!showHardWords) {
-  //     setHardWords([]);
-  //     return getArrayObjects(
-  //       hsk1Words,
-  //       vocabularyPart,
-  //       undefined,
-  //       chunkSize.current
-  //     );
-  //   } else {
-  //     return hardWords;
-  //   }
-  // }, [restart, vocabularyPart, vocabularySize, showHardWords]);
+
+  let words: hsk1WordsType = useMemo(() => {
+    if (!showHardWords) {
+      setHardWords([]);
+      return getArrayObjects(
+        hsk1Words,
+        vocabularyPart,
+        undefined,
+        chunkSize.current
+      );
+    } else {
+      return hardWords;
+    }
+  }, [restart, vocabularyPart, vocabularySize, showHardWords]);
 
   const restartGame = (wholeRestart = false, shuffleWords = true) => {
     if (wholeRestart) setRestart(!restart);
