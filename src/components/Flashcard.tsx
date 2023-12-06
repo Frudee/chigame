@@ -48,8 +48,14 @@ export default function Flashcard({
       if (!showPinyin) setScore((prevScore) => prevScore + 1);
       setIsCorrectAnswer(true);
     } else {
-      if (!showHardWords)
-        setHardWords((prevHardWords) => [...prevHardWords, word]);
+      if (!showHardWords) {
+        setHardWords((prevHardWords) => {
+          if (!prevHardWords.includes(word)) {
+            return [...prevHardWords, word];
+          }
+          return prevHardWords;
+        });
+      }
       setError(true);
     }
   };

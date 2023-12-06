@@ -16,7 +16,6 @@ export const getArrayObjects = (
     const chunk = Number(part);
     const startIndex = chunk * chunkSize;
     const endIndex = startIndex + chunkSize;
-    console.log(startIndex, endIndex);
     return array.slice(startIndex, endIndex).sort(() => Math.random() - 0.5);
   }
 };
@@ -24,4 +23,12 @@ export const getArrayObjects = (
 export const insertAtRandomPosition = (array: any[], item: any) => {
   const randomIndex = Math.floor(Math.random() * (array.length + 1));
   array.splice(randomIndex, 0, item);
+};
+
+export const shuffleArray = (array: any[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 };

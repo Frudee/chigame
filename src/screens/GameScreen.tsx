@@ -1,9 +1,10 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { hsk1Words, hsk1WordsType } from "../lib/data";
-import { getArrayObjects } from "../lib/helpers";
+import { shuffleArray } from "../lib/helpers";
 import Flashcard from "../components/Flashcard";
 import Results from "../components/Results";
 import MainMenuBtn from "../components/MainMenuBtn";
+import { useWords } from "../lib/hooks";
 
 type Props = {
   setShowGameScreen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,26 +27,34 @@ export default function GameScreen({
   const [restart, setRestart] = useState(false);
   const [hardWords, setHardWords] = useState<hsk1WordsType>([]);
   const [showHardWords, setShowHardWords] = useState(false);
+  const [shuffle, setShuffle] = useState(true);
 
   const chunkSize = useRef(vocabularySize);
+  let words = useWords(
+    hsk1Words,
+    vocabularyPart,
+    vocabularySize,
+    showHardWords,
+    restart,
+    chunkSize.current
+  );
+  // let words: hsk1WordsType = useMemo(() => {
+  //   if (!showHardWords) {
+  //     setHardWords([]);
+  //     return getArrayObjects(
+  //       hsk1Words,
+  //       vocabularyPart,
+  //       undefined,
+  //       chunkSize.current
+  //     );
+  //   } else {
+  //     return hardWords;
+  //   }
+  // }, [restart, vocabularyPart, vocabularySize, showHardWords]);
 
-  const words: hsk1WordsType = useMemo(() => {
-    if (!showHardWords) {
-      setHardWords([]);
-      return getArrayObjects(
-        hsk1Words,
-        vocabularyPart,
-        undefined,
-        chunkSize.current
-      );
-    } else {
-      return hardWords;
-    }
-  }, [restart, vocabularyPart, vocabularySize, showHardWords]);
-
-  const restartGame = (wholeRestart = false) => {
+  const restartGame = (wholeRestart = false, shuffleWords = true) => {
     if (wholeRestart) setRestart(!restart);
-    words.sort(() => Math.random() - 0.5);
+    if (shuffleWords) setShuffle(true);
     setCurrentLevel(0);
     setScore(0);
     setTries(0);
@@ -57,16 +66,26 @@ export default function GameScreen({
     setShowHardWords(!showHardWords);
   };
 
+  const handleBackClick = () => {
+    setVocabularySize(chunkSize.current);
+    setShowGameScreen(false);
+  };
+
   useEffect(() => {
+    if (shuffle) {
+      words = shuffleArray(words);
+      setShuffle(false);
+    }
+
     if (showHardWords) setVocabularySize(hardWords.length);
     if (!showHardWords) setVocabularySize(words.length);
-  }, [showHardWords, hardWords, words]);
+  }, [showHardWords, shuffle]);
 
   return (
     <div className="flex flex-col text-sm sm:text-base  justify-center items-center min-h-[100vh] w-full pt-20 px-2">
       <div className="mb-10 flex flex-col justify-between w-full sm:w-1/2 ">
         <div className="flex justify-between w-full pb-2 gap-2">
-          <MainMenuBtn classNames="" onClick={() => setShowGameScreen(false)}>
+          <MainMenuBtn classNames="" onClick={handleBackClick}>
             Назад
           </MainMenuBtn>
           <MainMenuBtn
@@ -121,7 +140,12 @@ export default function GameScreen({
             )
         )}
       {currentLevel === vocabularySize && (
-        <Results score={score} maxScore={tries} restartGame={restartGame} />
+        <Results
+          score={score}
+          maxScore={tries}
+          restartGame={restartGame}
+          vocabularyPart={vocabularyPart}
+        />
       )}
     </div>
   );
